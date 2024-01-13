@@ -4,7 +4,7 @@ from fastai.vision.all import *
 
 # Load the trained model
 path = Path('')
-learn_inf = load_learner(path/'pneumonia_classifier.pkl')
+learn_inf = load_learner(str(path/'pneumonia_classifier.pkl'))
 
 def get_img_as_base64(file):
     with open(file, "rb") as f:
