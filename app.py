@@ -5,9 +5,6 @@ from fastai.vision.all import *
 plt = platform.system()
 if plt == 'Linnux': pathlib.Windows = pathlib.PosixPath
 
-# Load the trained model
-learn_inf = load_learner('pneumonia_classifier.pkl')
-
 def get_img_as_base64(file):
     with open(file, "rb") as f:
         data = f.read()
@@ -40,6 +37,8 @@ if uploaded_file is not None:
     st.image(image, caption="Uploaded Image.", use_column_width=True)
 
     if st.button("Predict"):
+        # Load the trained model
+        learn_inf = load_learner('pneumonia_classifier.pkl')
         # Perform prediction
         pred_class, pred_idx, probabilities = learn_inf.predict(image)
 
@@ -52,4 +51,4 @@ if uploaded_file is not None:
 
         # Display Result and Probability in the same line with increased font size
         st.markdown(result_text, unsafe_allow_html=True)
-        st.markdown(f"<font style='font-size:30px'>Probability: {probabilities[pred_idx]*100:.2f}%</font>", unsafe_allow_html=True)
+        st.markdown(f"<font style='font-size:30px'>Accuracy: {probabilities[pred_idx]*100:.2f}%</font>", unsafe_allow_html=True)
