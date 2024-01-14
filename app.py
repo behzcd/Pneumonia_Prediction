@@ -3,7 +3,7 @@ import base64
 from fastai.vision.all import *
 
 # Load the trained model
-path = Path('pneumonia_classifier.pkl')
+path = 'pneumonia_classifier.pkl'
 learn_inf = load_learner(path)
 
 def get_img_as_base64(file):
