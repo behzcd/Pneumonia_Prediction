@@ -2,7 +2,7 @@ import streamlit as st
 import base64
 from fastai.vision.all import *
 
-learn_inf = load_learner('pneumonia_classifier.pkl')
+learn_inf = load_learner('pneumonia_model_export.pkl')
 
 def get_img_as_base64(file):
     with open(file, "rb") as f:
