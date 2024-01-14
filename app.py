@@ -36,8 +36,9 @@ if uploaded_file is not None:
 
     if st.button("Predict"):
         # Load the trained model
-        path = Path('pneumonia_classifier.pkl')
-        learn_inf = load_learner(path)
+        model_path = Path(__file__).parent / 'pneumonia_classifier.pkl'
+        learn_inf = load_learner(model_path)
+
         # Perform prediction
         pred_class, pred_idx, probabilities = learn_inf.predict(image)
 
