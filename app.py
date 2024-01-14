@@ -1,10 +1,12 @@
 import streamlit as st
 import base64
+import pathlib
 from fastai.vision.all import *
+plt = platform.system()
+if plt == 'Linnux': pathlib.Windows = pathlib.PosixPath
 
 # Load the trained model
-path = 'pneumonia_classifier.pkl'
-learn_inf = load_learner(path)
+learn_inf = load_learner('pneumonia_classifier.pkl')
 
 def get_img_as_base64(file):
     with open(file, "rb") as f:
