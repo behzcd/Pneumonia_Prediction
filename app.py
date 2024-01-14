@@ -1,11 +1,11 @@
 import streamlit as st
 import base64
-import os
 from fastai.vision.all import *
 
-# Load the trained model
-path = Path('')
-learn_inf = load_learner(path/'pneumonia_classifier.pkl')
+# Load the pneumonia model
+path = 'pneumonia_classifier.pkl'
+with open(path, 'rb') as f:
+    learn_inf = pickle.load(f)
 
 def get_img_as_base64(file):
     with open(file, "rb") as f:
