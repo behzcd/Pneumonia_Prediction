@@ -3,8 +3,8 @@ import base64
 from fastai.vision.all import *
 
 # Load the pneumonia model
-path = 'pneumonia_classifier.pkl'
-with open(path, 'rb') as f:
+pathh = 'pneumonia_classifier.pkl'
+with open(pathh, 'rb') as f:
     learn_inf = pickle.load(f)
 
 def get_img_as_base64(file):
