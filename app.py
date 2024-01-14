@@ -2,6 +2,9 @@ import streamlit as st
 import base64
 from pathlib import Path
 from fastai.vision.all import *
+import platform
+plt = platform.system()
+if plt == 'Linux': pathlib.Windows = pathlib.PosixPath
 
 def get_img_as_base64(file):
     with open(file, "rb") as f:
