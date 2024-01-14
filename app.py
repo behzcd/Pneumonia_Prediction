@@ -1,22 +1,10 @@
 import streamlit as st
 import base64
-import pathlib
+from pathlib import Path
 from fastai.vision.all import *
-import platform
-plt = platform.system()
-# Define a custom function to create a Path object based on the platform
-def custom_path(*args):
-    if plt == 'Linux':
-        return pathlib.PosixPath(*args)
-    else:
-        return pathlib.WindowsPath(*args)
 
-# Replace the Path class with the custom function
-def create_path(*args):
-    return custom_path(*args)
-
-# Update the load_learner line to use the custom path creation function
-learn_inf = load_learner(create_path('pneumonia_classifier.pkl'))
+# Convert the path to a string to avoid platform-specific instantiation issues
+learn_inf = load_learner(str(Path('pneumonia_classifier.pkl')))
 
 def get_img_as_base64(file):
     with open(file, "rb") as f:
