@@ -1,6 +1,6 @@
 import streamlit as st
 import base64
-import pathlib
+from pathlib import Path
 from fastai.vision.all import *
 
 def get_img_as_base64(file):
@@ -36,7 +36,8 @@ if uploaded_file is not None:
 
     if st.button("Predict"):
         # Load the trained model
-        learn_inf = load_learner('pneumonia_classifier.pkl')
+        path = Path('pneumonia_classifier.pkl')
+        learn_inf = load_learner(path)
         # Perform prediction
         pred_class, pred_idx, probabilities = learn_inf.predict(image)
 
