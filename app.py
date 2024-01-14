@@ -1,10 +1,22 @@
 import streamlit as st
 import base64
-import tensorflow as tf
-from tensorflow.keras.models import load_model
+import pathlib
 from fastai.vision.all import *
+import platform
+plt = platform.system()
+# Define a custom function to create a Path object based on the platform
+def custom_path(*args):
+    if plt == 'Linux':
+        return pathlib.PosixPath(*args)
+    else:
+        return pathlib.WindowsPath(*args)
 
-learn_inf = load_model('pneumonia_classifier.pkl')
+# Replace the Path class with the custom function
+def create_path(*args):
+    return custom_path(*args)
+
+# Update the load_learner line to use the custom path creation function
+learn_inf = load_learner(create_path('pneumonia_classifier.pkl'))
 
 def get_img_as_base64(file):
     with open(file, "rb") as f:
