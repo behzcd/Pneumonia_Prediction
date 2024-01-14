@@ -1,4 +1,5 @@
 import streamlit as st
+import pickle
 import base64
 from fastai.vision.all import *
 
