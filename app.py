@@ -1,10 +1,10 @@
 import streamlit as st
 import base64
-from pathlib import Path
+import tensorflow as tf
+from tensorflow.keras.models import load_model
 from fastai.vision.all import *
 
-# Convert the path to a string to avoid platform-specific instantiation issues
-learn_inf = load_learner(str(Path('pneumonia_classifier.pkl')))
+learn_inf = load_model('pneumonia_classifier.pkl')
 
 def get_img_as_base64(file):
     with open(file, "rb") as f:
