@@ -4,14 +4,19 @@ import pathlib
 from fastai.vision.all import *
 import platform
 plt = platform.system()
-# Define a custom Path class that adapts based on the platform
-class CustomPath(type(Path())):
+# Define a custom function to create a Path object based on the platform
+def custom_path(*args):
     if plt == 'Linux':
-        def __new__(cls, *args, **kwargs):
-            return pathlib.PosixPath(*args, **kwargs)
+        return pathlib.PosixPath(*args)
+    else:
+        return pathlib.WindowsPath(*args)
 
-# Replace the Path class with the custom class
-Path = CustomPath
+# Replace the Path class with the custom function
+def create_path(*args):
+    return custom_path(*args)
+
+# Update the load_learner line to use the custom path creation function
+learn_inf = load_learner(create_path('pneumonia_classifier.pkl'))
 
 def get_img_as_base64(file):
     with open(file, "rb") as f:
@@ -45,9 +50,6 @@ if uploaded_file is not None:
     st.image(image, caption="Uploaded Image.", use_column_width=True)
 
     if st.button("Predict"):
-        # Load the trained model
-        learn_inf = load_learner('pneumonia_classifier.pkl')
-
         # Perform prediction
         pred_class, pred_idx, probabilities = learn_inf.predict(image)
 
