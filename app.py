@@ -36,19 +36,23 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file)
     st.image(image, caption="Uploaded Image.", use_column_width=True)
 
+    # Add loading spinner during prediction
     if st.button("Predict"):
-        # Load the trained model
-        learn_inf = load_learner('pneumonia_classifier.pkl')
-        # Perform prediction
-        pred_class, pred_idx, probabilities = learn_inf.predict(image)
+        with st.spinner('Predicting...'):
+            # Load the trained model
+            try:
+                learn_inf = load_learner('pneumonia_classifier.pkl')
+            except Exception as e:
+                st.error(f"Error loading the model: {e}")
+                return
 
-        # Format the Result and Probability in the same line
-        result_text = f"<font color='white' style='font-size:30px'>Result: </font>"
-        if pred_class == "PNEUMONIA":
-            result_text += f"<font color='red' style='font-size:30px'>{pred_class}</font>"
-        else:
-            result_text += f"<font color='green' style='font-size:30px'>{pred_class}</font>"
+            # Perform prediction
+            pred_class, pred_idx, probabilities = learn_inf.predict(image)
 
-        # Display Result and Probability in the same line with increased font size
-        st.markdown(result_text, unsafe_allow_html=True)
-        st.markdown(f"<font style='font-size:30px'>Accuracy: {probabilities[pred_idx]*100:.2f}%</font>", unsafe_allow_html=True)
+            # Display Result and Probability in the same line with increased font size
+            result_text = f"<font color='white' style='font-size:30px'>Result: </font>"
+            result_color = 'red' if pred_class == "PNEUMONIA" else 'green'
+            result_text += f"<font color='{result_color}' style='font-size:30px'>{pred_class}</font>"
+            st.markdown(result_text, unsafe_allow_html=True)
+
+            st.markdown(f"<font style='font-size:30px'>Accuracy: {probabilities[pred_idx]*100:.2f}%</font>", unsafe_allow_html=True)
