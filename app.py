@@ -3,7 +3,7 @@ import base64
 import pathlib
 from fastai.vision.all import *
 plt = platform.system()
-if plt == 'Linnux': pathlib.Windows = pathlib.PosixPath
+if plt == 'Linux': pathlib.Windows = pathlib.PosixPath
 
 def get_img_as_base64(file):
     with open(file, "rb") as f:
