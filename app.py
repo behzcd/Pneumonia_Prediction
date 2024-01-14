@@ -28,21 +28,26 @@ st.title("Pneumonia Image Classifier")
 
 uploaded_file = st.file_uploader("Choose an image...", type="jpg")
 
-if uploaded_file:
-    st.image(uploaded_file)
-    #image convertion
-    img = Image.open(uploaded_file)
-    # do stuff with `img`
+# Check if an image is uploaded
+if uploaded_file is not None:
+    # Display the uploaded image
+    image = Image.open(uploaded_file)
+    st.image(image, caption="Uploaded Image.", use_column_width=True)
 
-    output = io.BytesIO()
-    img.save(output, format='JPEG')  # or another format
-    output.seek(0)
+    if st.button("Predict"):
+        # Load the trained model
+        learn_inf = load_learner('pneumonia_classifier.pkl')
 
-    #model
-    model = load_learner('pneumonia_classifier.pkl')
+        # Perform prediction
+        pred_class, pred_idx, probabilities = learn_inf.predict(image)
 
-    #prediction
+        # Format the Result and Probability in the same line
+        result_text = f"<font color='white' style='font-size:30px'>Result: </font>"
+        if pred_class == "PNEUMONIA":
+            result_text += f"<font color='red' style='font-size:30px'>{pred_class}</font>"
+        else:
+            result_text += f"<font color='green' style='font-size:30px'>{pred_class}</font>"
 
-    pred, pred_id, probs =  model.predict(img)
-    st.success(f'Prediction: {pred}')
-    st.info(f'Accuracy: {probs[pred_id]*100:.1f}%')
+        # Display Result and Probability in the same line with increased font size
+        st.markdown(result_text, unsafe_allow_html=True)
+        st.markdown(f"<font style='font-size:30px'>Accuracy: {probabilities[pred_idx]*100:.2f}%</font>", unsafe_allow_html=True)
